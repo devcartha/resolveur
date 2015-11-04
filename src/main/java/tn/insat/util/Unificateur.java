@@ -34,6 +34,7 @@ public class Unificateur {
         e2.add(f2);
         //unifier les têtes de deux expressions
         String z1 = unifier(e1, e2);
+        //System.out.println(z1);
         //echec d'unification
         if (z1.equalsIgnoreCase("echec"))
             return "echec";
@@ -42,6 +43,7 @@ public class Unificateur {
         List<String> g2 = changer(t2, z1);
         //unifier  les  termes  non  traités  de  deux expressions
         String z2 = unifier(g1, g2);
+        //System.out.println(z2);
         //echec d'unification
         if (z2.equalsIgnoreCase("echec"))
             return "echec";
@@ -50,17 +52,18 @@ public class Unificateur {
 
     public static Regle instancier(Regle operateur, String unificateur) {
         Regle instance = new Regle();
-        instance.setNom(operateur.getNom()+"("+unificateur+" )");
-        ArrayList<Predicat> premissesInstancie =new ArrayList<Predicat>();
+        instance.setNom(operateur.getNom() + "(" + unificateur + " )");
+        ArrayList<Predicat> premissesInstancie = new ArrayList<Predicat>();
         Predicat conclusionInstancie = new Predicat();
         conclusionInstancie.setNom(operateur.getConclusion().getNom());
-        conclusionInstancie.setVariablesInstancies((ArrayList<String>) changer(operateur.getConclusion().getVariables(),unificateur));
-            for (Predicat premisse : operateur.getPremisses()){
-                Predicat premisseInstancie = new Predicat();
-                premisseInstancie.setNom(premisse.getNom());
-                premisseInstancie.setVariablesInstancies((ArrayList<String>) changer(premisse.getVariables(),unificateur));
-                premissesInstancie.add(premisseInstancie);
-            }
+        //System.out.println(unificateur);
+        conclusionInstancie.setVariablesInstancies((ArrayList<String>) changer(operateur.getConclusion().getVariables(), unificateur));
+        for (Predicat premisse : operateur.getPremisses()) {
+            Predicat premisseInstancie = new Predicat();
+            premisseInstancie.setNom(premisse.getNom());
+            premisseInstancie.setVariablesInstancies((ArrayList<String>) changer(premisse.getVariables(), unificateur));
+            premissesInstancie.add(premisseInstancie);
+        }
         instance.setPremisses(premissesInstancie);
         instance.setConclusion(conclusionInstancie);
         return instance;
@@ -111,6 +114,7 @@ public class Unificateur {
             return unifier(l1, l2);
         }
         //echec
+        System.out.println(expr1+" "+expr2);
         return "echec";
     }
 
@@ -118,7 +122,7 @@ public class Unificateur {
         return (expr.size() == 1);
     }
 
-    private static List<String> extractExpression(String expr) {
+    public static List<String> extractExpression(String expr) {
         ArrayList<String> l = new ArrayList<String>();
         ArrayList<String> list = new ArrayList<String>();
 
@@ -127,9 +131,9 @@ public class Unificateur {
         expr = expr.substring(expr.indexOf("("), expr.lastIndexOf(")"));
 
         while (i < expr.length()) {
-            if (expr.substring(i, i + 1).matches("[a-z,>,<,+,-]")) {
+            if (expr.substring(i, i + 1).matches("[a-z><+-]")) {
                 l.add(expr.substring(i, i + 1));
-            } else if (expr.substring(i, i + 1).matches("[A-Z,1-9]")) {
+            } else if (expr.substring(i, i + 1).matches("[A-Z0-9]")) {
                 l.add(expr.substring(i, i + 1));
             } else if (expr.substring(i, i + 1).matches("[?]")) {
                 l.add(expr.substring(i, i + 2));
@@ -141,11 +145,11 @@ public class Unificateur {
         }
         int j = 0;
         while (j < l.size()) {
-            if (l.get(j).matches("[A-Z,1-9]")) {
+            if (l.get(j).matches("[A-Z0-9]")) {
                 list.add(l.get(j));
             } else if (l.get(j).contains("?")) {
                 list.add(l.get(j));
-            } else if (l.get(j).matches("[a-z,>,<,+,-]")) {
+            } else if (l.get(j).matches("[a-z><+-]")) {
                 String fonction = "";
                 while (j < l.size()) {
                     if (l.get(j).contains(")")) {

@@ -1,5 +1,7 @@
 package tn.insat.util;
 
+import tn.insat.structure.Regle;
+
 /**
  * Created by Devcartha on 12/1/2015.
  */
@@ -65,6 +67,7 @@ public class Interpreteur {
     }
 
     public static boolean valide(String etat) {
+        //System.out.println(etat);
         String x = etat.substring(etat.indexOf("(")+1,etat.indexOf(","));
         String y = etat.substring(etat.indexOf(",")+1,etat.lastIndexOf(","));
         int m=Integer.parseInt(x),c=Integer.parseInt(y);

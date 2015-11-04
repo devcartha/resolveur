@@ -43,7 +43,6 @@ public class Predicat {
     }
 
     private String extraireFonction(String expr) {
-        //System.out.println(expr);
         if (expr.contains("-")) {
             if (expr.contains("+")) {
                 String fonctionPlus = "+(" + expr.substring(expr.indexOf("+") - 2, expr.indexOf("+")) + "," + expr.substring(expr.indexOf("+") + 1, expr.indexOf("+") + 2) + ")";
@@ -58,23 +57,35 @@ public class Predicat {
                 return fonctionMoin;
             }
         } else if (expr.contains("+")) {
-            String fonctionPlus = "+(" + expr.substring(expr.indexOf("+"), expr.indexOf("+") + 1) + ")";
+            //System.out.println("Expression : "+expr);
+            String fonctionPlus = "+(" + expr.substring(0 , expr.indexOf("+"))+","+ expr.substring(expr.indexOf("+")+1)+")";
+            //System.out.println(fonctionPlus);
             return fonctionPlus;
         }
         return expr;
     }
 
+    public Etat getEtat(){
+        Etat etat = new Etat();
+        if (this.getNom().equals("p")){
+            etat.setX(Integer.parseInt(variables.get(0)));
+            etat.setY(Integer.parseInt(variables.get(1)));
+            etat.setP(Integer.parseInt(variables.get(2)));
+            return etat;
+        }
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+       /* if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Predicat predicat = (Predicat) o;
 
         if (nom != null ? !nom.equals(predicat.nom) : predicat.nom != null) return false;
-        return !(variables != null ? !variables.equals(predicat.variables) : predicat.variables != null);
-
+        return !(variables != null ? !variables.equals(predicat.variables) : predicat.variables != null);*/
+        return this.toString().equals(o.toString());
     }
 
     @Override

@@ -29,8 +29,10 @@ public class BCLoader {
         String ligne;
         int i = 1;
         while ((ligne = br.readLine()) != null) {
+            Regle regle = new Regle();
+            regle.setNom(ligne.substring(0,ligne.indexOf(":")));
+            ligne.replace("MC","");
             predicats = new ArrayList<Predicat>();
-            //System.out.println(ligne);
             while (ligne.contains("(")) {
                 String predicat = ligne.substring(ligne.indexOf("("), ligne.indexOf(")") + 1);
                 if (predicat.contains(",")) {
@@ -46,21 +48,17 @@ public class BCLoader {
                     variables.add(predicat.substring(0, 1));
                     p.setVariables(variables);
                     predicats.add(p);
-                    //System.out.println(p);
                 }else if(predicat.contains(">=")){
                     Predicat p = new Predicat();
                     p.setNom(">");
                     ArrayList<String> variables = new ArrayList<String>();
                     String variable;
                     variable = predicat.substring(1,predicat.indexOf(">="));
-                    //System.out.println(variable);
                     variables.add(variable);
                     variable = predicat.substring(predicat.indexOf(">=")+2,predicat.indexOf(")"));
-                    //System.out.println(variable);
                     variables.add(variable);
                     p.setVariables(variables);
                     predicats.add(p);
-                    //System.out.println(p);
                 }else if (predicat.contains("=")){
                     Predicat p = new Predicat();
                     p.setNom("=");
@@ -72,19 +70,14 @@ public class BCLoader {
                     variables.add(variable);
                     p.setVariables(variables);
                     predicats.add(p);
-                    //System.out.println(p);
                 }
 
                 ligne = ligne.substring(ligne.indexOf(")") + 1);
             }
-            //System.out.println(predicats);
-            Regle regle = new Regle();
-            regle.setNom("R"+i);
             regle.setConclusion(predicats.get(predicats.size()-1));
             predicats.remove(predicats.size()-1);
             regle.setPremisses(predicats);
             this.getBaseDeRegles().add(regle);
-            System.out.println(regle);
             i++;
         }
         br.close();
