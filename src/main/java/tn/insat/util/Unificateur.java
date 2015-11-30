@@ -94,7 +94,7 @@ public class Unificateur {
     }
 
     private static boolean estAtome(List<String> expr) {
-        return (expr.size() == 1) && (!expr.get(0).contains("("));
+        return (expr.size() == 1);
     }
 
     public static List<String> extractExpression(String expr) {
