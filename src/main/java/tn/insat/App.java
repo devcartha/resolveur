@@ -29,7 +29,7 @@ public class App
         //System.out.println(Interpreteur.interpreter(">(3,1)"));
         //System.out.println(Interpreteur.interpreter("p(2,2,0)"));
 
-
+        // MC(3,3,1)
         BCLoader bcLoader = new BCLoader();
         bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));
         Probleme probleme = new Probleme();
