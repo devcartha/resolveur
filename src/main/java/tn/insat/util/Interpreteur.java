@@ -34,7 +34,7 @@ public class Interpreteur {
     //>(-(3,+(?x,1)),-(3,+(?y,1)))
     public static boolean comparer(String predicatComparaison) {
 
-        String operande1, operande2, resultat;
+        String operande1, operande2, operateurDeComparaison=predicatComparaison.substring(0,1);
         if (predicatComparaison.indexOf("-") == 2) {
             operande1 = soustraction(predicatComparaison.substring(predicatComparaison.indexOf("-"), predicatComparaison.indexOf("),") + 1));
             predicatComparaison = predicatComparaison.substring(predicatComparaison.indexOf("),") + 1);
@@ -44,6 +44,7 @@ public class Interpreteur {
         } else {
             operande1 = predicatComparaison.substring(predicatComparaison.indexOf("(") + 1, predicatComparaison.indexOf(","));
             predicatComparaison = predicatComparaison.substring(predicatComparaison.indexOf(","));
+            //System.out.println(operande1);
         }
 
         if (predicatComparaison.contains("-")) {
@@ -52,12 +53,13 @@ public class Interpreteur {
             operande2 = addition(predicatComparaison.substring(predicatComparaison.indexOf("+"), predicatComparaison.indexOf(")") + 1));
         } else {
             operande2 = predicatComparaison.substring(predicatComparaison.indexOf(",") + 1, predicatComparaison.indexOf(")"));
+            //System.out.println(operande2);
         }
 
         int op1 = Integer.parseInt(operande1);
         int op2 = Integer.parseInt(operande2);
 
-        if (predicatComparaison.contains(">"))
+        if (operateurDeComparaison.contains(">"))
             return (op1 >= op2);
         return (op1 == op2);
     }
@@ -69,5 +71,18 @@ public class Interpreteur {
         return (m==0 || m==3 || (m>=c && 3-m>=3-c)) ;
     }
 
+    public static boolean interpreter(String predicat){
+        if (predicat.contains("=")|| predicat.contains(">"))
+        return comparer(predicat);
+        return valide(predicat);
+    }
+
+    public static String interpreterFonction(String fonction){
+        if(fonction.indexOf("+")==0)
+            return addition(fonction);
+        if(fonction.indexOf("-")==0)
+            return soustraction(fonction);
+        return fonction;
+    }
 
 }

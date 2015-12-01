@@ -1,7 +1,10 @@
 package tn.insat;
 
 import tn.insat.base_de_connaissances.BCLoader;
+import tn.insat.resolveur.ResolveurGeneral;
+import tn.insat.structure.Etat;
 import tn.insat.structure.Predicat;
+import tn.insat.structure.Probleme;
 import tn.insat.structure.Regle;
 import tn.insat.util.Interpreteur;
 import tn.insat.util.Unificateur;
@@ -22,11 +25,21 @@ public class App
 
 
         //System.out.println(Interpreteur.soustraction("-(+(5,2),+(5,2))"));
-        //System.out.println(Interpreteur.comparer(">(-(3,+(3,1)),-(3,+(3,1)))"));
-        //System.out.println(Interpreteur.valide("p(2,2,0)"));
+        //System.out.println(Interpreteur.interpreter(">(-(3,+(3,2)),-(3,+(3,1)))"));
+        //System.out.println(Interpreteur.interpreter(">(3,1)"));
+        //System.out.println(Interpreteur.interpreter("p(2,2,0)"));
 
-        //BCLoader bcLoader = new BCLoader();
-        //bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));
+
+        BCLoader bcLoader = new BCLoader();
+        bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));
+        Probleme probleme = new Probleme();
+        probleme.setBaseDeRegles(bcLoader.getBaseDeRegles());
+        ResolveurGeneral resolveurGeneral = new ResolveurGeneral();
+        System.out.println("Operaterurs applicables **************************");
+        ArrayList<Regle> operateursApplicables = resolveurGeneral.genereOperateursApplicables(probleme,new Etat(3,3,0));
+        for (Regle regle : operateursApplicables)
+            System.out.println(regle);
+
 
         /*ArrayList<String> variables = new ArrayList<String>();
         variables.add("?x");
