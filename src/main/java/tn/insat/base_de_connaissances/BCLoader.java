@@ -21,7 +21,7 @@ public class BCLoader {
     }
 
     public void setBaseDeRegles(File f) throws IOException {
-
+        ArrayList<Predicat> predicats ;
         this.baseDeRegles = new ArrayList<Regle>();
         FileReader fr = new FileReader(f);
         BufferedReader br = new BufferedReader(fr);
@@ -29,6 +29,7 @@ public class BCLoader {
         String ligne;
         int i = 1;
         while ((ligne = br.readLine()) != null) {
+            predicats = new ArrayList<Predicat>();
             //System.out.println(ligne);
             while (ligne.contains("(")) {
                 String predicat = ligne.substring(ligne.indexOf("("), ligne.indexOf(")") + 1);
@@ -44,47 +45,40 @@ public class BCLoader {
                     }
                     variables.add(predicat.substring(0, 1));
                     p.setVariables(variables);
-                    System.out.println(p);
+                    predicats.add(p);
+                    //System.out.println(p);
                 }else if(predicat.contains(">=")){
                     Predicat p = new Predicat();
                     p.setNom(">");
                     ArrayList<String> variables = new ArrayList<String>();
                     String variable;
-                    String fonctionPlus = null;
-                    String fonctionMoin = null;
-                    if(predicat.contains("+")){
-                        fonctionPlus = "+("+predicat.substring(predicat.indexOf("?"),predicat.indexOf("?")+2)+",";
-                        fonctionPlus+=predicat.substring(predicat.indexOf("+")+1,predicat.indexOf("+")+2)+")";
-                            System.out.println(fonctionPlus);
-                    }
-                    if(predicat.contains("-")){
-                            if (predicat.contains("+")){
-                                //if(predicat.indexOf("?")==0)
-                                fonctionMoin="-("+predicat.substring(predicat.indexOf("?"),predicat.indexOf("?")+2)+","+fonctionPlus+")";
-                                System.out.println(fonctionMoin);
-                                variables.add(fonctionMoin);
-                            }
-                    }else{
-                        variable = predicat.substring(1,predicat.indexOf(">="));
-                        variables.add(variable);
-                        variable = predicat.substring(predicat.indexOf(">=")+2,predicat.indexOf(")"));
-                        variables.add(variable);
-                    }
+                    variable = predicat.substring(1,predicat.indexOf(">="));
+                    //System.out.println(variable);
+                    variables.add(variable);
+                    variable = predicat.substring(predicat.indexOf(">=")+2,predicat.indexOf(")"));
+                    //System.out.println(variable);
+                    variables.add(variable);
                     p.setVariables(variables);
-                    System.out.println(p);
+                    predicats.add(p);
+                    //System.out.println(p);
                 }else if (predicat.contains("=")){
-                    if(predicat.contains("-")){
-
-                    }else if(predicat.contains("+")){
-
-                    }else{
-
-                    }
+                    Predicat p = new Predicat();
+                    p.setNom("=");
+                    ArrayList<String> variables = new ArrayList<String>();
+                    String variable;
+                    variable = predicat.substring(1,predicat.indexOf("="));
+                    variables.add(variable);
+                    variable = predicat.substring(predicat.indexOf("=")+1,predicat.indexOf(")"));
+                    variables.add(variable);
+                    p.setVariables(variables);
+                    predicats.add(p);
+                    //System.out.println(p);
                 }
 
                 ligne = ligne.substring(ligne.indexOf(")") + 1);
             }
             i++;
+            System.out.println(predicats);
         }
         br.close();
     }
