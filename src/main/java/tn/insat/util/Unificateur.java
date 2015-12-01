@@ -106,9 +106,9 @@ public class Unificateur {
         expr = expr.substring(expr.indexOf("("), expr.lastIndexOf(")"));
 
         while (i < expr.length()) {
-            if (expr.substring(i, i + 1).matches("[a-z]")) {
+            if (expr.substring(i, i + 1).matches("[a-z,>,<,+,-]")) {
                 l.add(expr.substring(i, i + 1));
-            } else if (expr.substring(i, i + 1).matches("[A-Z]")) {
+            } else if (expr.substring(i, i + 1).matches("[A-Z,1-9]")) {
                 l.add(expr.substring(i, i + 1));
             } else if (expr.substring(i, i + 1).matches("[?]")) {
                 l.add(expr.substring(i, i + 2));
@@ -120,11 +120,11 @@ public class Unificateur {
         }
         int j = 0;
         while (j < l.size()) {
-            if (l.get(j).matches("[A-Z]")) {
+            if (l.get(j).matches("[A-Z,1-9]")) {
                 list.add(l.get(j));
             } else if (l.get(j).contains("?")) {
                 list.add(l.get(j));
-            } else if (l.get(j).matches("[a-z]")) {
+            } else if (l.get(j).matches("[a-z,>,<,+,-]")) {
                 String fonction = "";
                 while (j < l.size()) {
                     if (l.get(j).contains(")")) {
