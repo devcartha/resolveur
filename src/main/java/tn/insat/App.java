@@ -21,10 +21,12 @@ public class App
     public static void main( String[] args ) throws IOException {
 
 
-        System.out.println(Interpreteur.soustraction("-(+(3,5),+(5,2))"));
-        //System.out.println(Interpreteur.comparer(">(-(3,2),5)"));
-        /*BCLoader bcLoader = new BCLoader();
-        bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));*/
+        //System.out.println(Interpreteur.soustraction("-(+(5,2),+(5,2))"));
+        //System.out.println(Interpreteur.comparer(">(-(3,+(3,1)),-(3,+(3,1)))"));
+        //System.out.println(Interpreteur.valide("p(2,2,0)"));
+
+        //BCLoader bcLoader = new BCLoader();
+        //bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));
 
         /*ArrayList<String> variables = new ArrayList<String>();
         variables.add("?x");
