@@ -77,8 +77,15 @@ public class BCLoader {
 
                 ligne = ligne.substring(ligne.indexOf(")") + 1);
             }
+            //System.out.println(predicats);
+            Regle regle = new Regle();
+            regle.setNom("R"+i);
+            regle.setConclusion(predicats.get(predicats.size()-1));
+            predicats.remove(predicats.size()-1);
+            regle.setPremisses(predicats);
+            this.getBaseDeRegles().add(regle);
+            System.out.println(regle);
             i++;
-            System.out.println(predicats);
         }
         br.close();
     }

@@ -2,6 +2,8 @@ package tn.insat;
 
 import tn.insat.base_de_connaissances.BCLoader;
 import tn.insat.structure.Predicat;
+import tn.insat.structure.Regle;
+import tn.insat.util.Interpreteur;
 import tn.insat.util.Unificateur;
 
 import java.io.File;
@@ -18,20 +20,34 @@ public class App
 {
     public static void main( String[] args ) throws IOException {
 
-        BCLoader bcLoader = new BCLoader();
-        bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));
+
+        System.out.println(Interpreteur.soustraction("-(+(3,5),+(5,2))"));
+        //System.out.println(Interpreteur.comparer(">(-(3,2),5)"));
+        /*BCLoader bcLoader = new BCLoader();
+        bcLoader.setBaseDeRegles(new File("c://operateurs.txt"));*/
 
         /*ArrayList<String> variables = new ArrayList<String>();
         variables.add("?x");
         variables.add("?y");
-        Predicat p = new Predicat("+",variables);
-        System.out.println(p);
+        variables.add("+(?z,1)");
+        Predicat p = new Predicat("p",variables);
+        //System.out.println(p);
 
         ArrayList<String> list1 = new ArrayList<String>();
         ArrayList<String> list2 = new ArrayList<String>();
         list1.add(p.toString());
-        list2.add("+(3,2)");
-        System.out.println(Unificateur.unifier(list1,list2));
+        list2.add("p(3,2)");
+        String unificateur = Unificateur.unifier(list1,list2);
+        //System.out.println(unificateur);
+
+        Regle regle = new Regle();
+        regle.setNom("R1");
+        ArrayList<Predicat> premisses = new ArrayList<Predicat>();
+        premisses.add(p);
+        regle.setPremisses(premisses);
+        regle.setConclusion(p);
+        System.out.println(regle);
+        System.out.println(Unificateur.instancier(regle,unificateur));
 
         /*System.out.println( "Hello World!" );
         ArrayList<String> list ;

@@ -1,5 +1,8 @@
 package tn.insat.util;
 
+import tn.insat.structure.Predicat;
+import tn.insat.structure.Regle;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +46,24 @@ public class Unificateur {
         if (z2.equalsIgnoreCase("echec"))
             return "echec";
         return z1 + " " + z2;
+    }
+
+    public static Regle instancier(Regle operateur, String unificateur) {
+        Regle instance = new Regle();
+        instance.setNom(operateur.getNom()+"("+unificateur+" )");
+        ArrayList<Predicat> premissesInstancie =new ArrayList<Predicat>();
+        Predicat conclusionInstancie = new Predicat();
+        conclusionInstancie.setNom(operateur.getConclusion().getNom());
+        conclusionInstancie.setVariablesInstancies((ArrayList<String>) changer(operateur.getConclusion().getVariables(),unificateur));
+            for (Predicat premisse : operateur.getPremisses()){
+                Predicat premisseInstancie = new Predicat();
+                premisseInstancie.setNom(premisse.getNom());
+                premisseInstancie.setVariablesInstancies((ArrayList<String>) changer(premisse.getVariables(),unificateur));
+                premissesInstancie.add(premisseInstancie);
+            }
+        instance.setPremisses(premissesInstancie);
+        instance.setConclusion(conclusionInstancie);
+        return instance;
     }
 
     /**
@@ -97,7 +118,7 @@ public class Unificateur {
         return (expr.size() == 1);
     }
 
-    public static List<String> extractExpression(String expr) {
+    private static List<String> extractExpression(String expr) {
         ArrayList<String> l = new ArrayList<String>();
         ArrayList<String> list = new ArrayList<String>();
 
@@ -128,12 +149,12 @@ public class Unificateur {
                 String fonction = "";
                 while (j < l.size()) {
                     if (l.get(j).contains(")")) {
-                        while (j< l.size()&& l.get(j).contains(")")){
+                        while (j < l.size() && l.get(j).contains(")")) {
                             fonction += ")";
                             j++;
                         }
                         break;
-                    }else{
+                    } else {
                         fonction += l.get(j);
                     }
                     j++;
